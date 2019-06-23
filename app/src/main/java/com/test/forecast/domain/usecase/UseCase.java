@@ -3,6 +3,8 @@ package com.test.forecast.domain.usecase;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.test.forecast.utils.EspressoIdlingResource;
+
 import java.util.Objects;
 
 import io.reactivex.Observable;
@@ -82,7 +84,11 @@ public abstract class UseCase<T, P> {
      */
     public Observable<T> execute(@Nullable P params) {
         return buildUseCase(params)
-                .doOnSubscribe(this::addDisposable)
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                    EspressoIdlingResource.increment();
+                })
+                .doFinally(EspressoIdlingResource::decrement)
                 .subscribeOn(mWorkThread)
                 .observeOn(mUiThread);
     }
