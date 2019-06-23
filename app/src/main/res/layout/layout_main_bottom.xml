@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvTemperature"
+        style="@style/TextViewStyle.WeatherTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tvTimezone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="25" />
+
+    <TextView
+        android:id="@+id/tvTemperatureSymbol"
+        style="@style/TextViewStyle.WeatherTemperatureSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTemperature"
+        app:layout_constraintStart_toEndOf="@+id/tvTemperature"
+        app:layout_constraintTop_toTopOf="@+id/tvTemperature"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="@string/text_weather_screen_temperature_symbol" />
+
+    <TextView
+        android:id="@+id/tvTimezone"
+        style="@style/TextViewStyle.Timezone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_timezone_margin_bottom"
+        app:layout_constraintBottom_toTopOf="@+id/tvDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Europe/Stockholm"/>
+
+    <TextView
+        android:id="@+id/tvDate"
+        style="@style/TextViewStyle.Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_date_margin_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Monday | June 28 | 12:15"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
