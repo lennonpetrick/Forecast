@@ -1,4 +1,4 @@
-package com.test.forecast.data;
+package com.test.forecast.data.entities;
 
 import com.google.gson.annotations.SerializedName;
 

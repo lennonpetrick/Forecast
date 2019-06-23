@@ -1,4 +1,4 @@
-package com.test.forecast.data;
+package com.test.forecast.data.entities;
 
 public class WeatherEntity   {
 

@@ -5,7 +5,11 @@ import android.app.Application;
 import com.test.forecast.MainApplication;
 import com.test.forecast.di.modules.ActivityModule;
 import com.test.forecast.di.modules.AppModule;
+import com.test.forecast.di.modules.LocalDataSourceModule;
+import com.test.forecast.di.modules.NetworkModule;
 import com.test.forecast.di.modules.PresenterModule;
+import com.test.forecast.di.modules.RepositoryModule;
+import com.test.forecast.di.modules.UseCaseModule;
 
 import javax.inject.Singleton;
 
@@ -19,7 +23,11 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AndroidSupportInjectionModule.class,
         ActivityModule.class,
         PresenterModule.class,
-        AppModule.class
+        AppModule.class,
+        LocalDataSourceModule.class,
+        NetworkModule.class,
+        RepositoryModule.class,
+        UseCaseModule.class
 })
 public interface AppComponent extends AndroidInjector<MainApplication> {
 

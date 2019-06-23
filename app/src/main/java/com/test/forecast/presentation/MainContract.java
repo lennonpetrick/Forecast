@@ -1,5 +1,7 @@
 package com.test.forecast.presentation;
 
+import android.os.Parcelable;
+
 import androidx.annotation.Nullable;
 
 public interface MainContract {
@@ -18,6 +20,10 @@ public interface MainContract {
     interface Presenter {
         void setView(View view);
         void destroy();
-        void fetchCurrentWeather(double lon, double lat);
+        void getForecast(double lon, double lat);
+        State getState();
+        void restoreState(State state);
     }
+
+    interface State extends Parcelable {}
 }

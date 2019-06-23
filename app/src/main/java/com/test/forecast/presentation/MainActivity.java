@@ -13,6 +13,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.test.forecast.R;
@@ -28,8 +29,10 @@ import dagger.android.AndroidInjection;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
-    private final static int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private final static int ENABLE_LOCATION_REQUEST_CODE = 2;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final int ENABLE_LOCATION_REQUEST_CODE = 2;
+
+    private static final String PRESENTER_STATE = "presenter_state";
 
     @Inject public MainContract.Presenter mPresenter;
     @Inject public LocationHelper mLocationHelper;
@@ -54,7 +57,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         bindViews();
 
+        if (savedInstanceState != null) {
+            restoreViewState(savedInstanceState);
+        }
+
         mPresenter.setView(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        MainContract.State state = mPresenter.getState();
+        if (state != null) {
+            outState.putParcelable(PRESENTER_STATE, state);
+        }
     }
 
     @Override
@@ -94,12 +110,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showLoading() {
-        hideLoading();
-
-        mDialog = new ProgressDialog(this);
-        mDialog.setMessage(getString(R.string.progress_please_wait));
-        mDialog.setCancelable(false);
-        mDialog.show();
+        showLoading(R.string.progress_please_wait);
     }
 
     @Override
@@ -167,6 +178,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mTvWeatherDescription = findViewById(R.id.tvWeatherDescription);
         mIvWeatherIcon = findViewById(R.id.ivWeatherIcon);
         mTopContent = findViewById(R.id.topContent);
+    }
+
+    private void restoreViewState(Bundle state) {
+        if (state.containsKey(PRESENTER_STATE)) {
+            mPresenter.restoreState(state.getParcelable(PRESENTER_STATE));
+        }
     }
 
     private void setBackground(@DrawableRes int drawable,
@@ -248,6 +265,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             return;
         }
 
-        mLocationHelper.requestLocation(mPresenter::fetchCurrentWeather);
+        showLoading(R.string.progress_fetching_location);
+        mLocationHelper.requestLocation((lon, lat) -> {
+            hideLoading();
+            mPresenter.getForecast(lon, lat);
+        });
+    }
+
+    private void showLoading(@StringRes int resId) {
+        hideLoading();
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage(getString(resId));
+        mDialog.setCancelable(false);
+        mDialog.show();
     }
 }
