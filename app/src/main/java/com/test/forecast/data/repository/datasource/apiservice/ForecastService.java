@@ -20,7 +20,7 @@ public interface ForecastService {
      * @param lat The location's latitude.
      * @return The forecast.
      **/
-    @GET("forecast/{apiKey}/{lon},{lat}")
+    @GET("forecast/{apiKey}/{lat},{lon}")
     Single<ForecastEntity> getForecast(@Path("apiKey") String apiKey,
                                        @Path("lon") double lon,
                                        @Path("lat") double lat);
